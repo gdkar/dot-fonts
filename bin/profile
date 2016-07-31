@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+from os import getenv, path,walk
+PATH = str.split(getenv('PATH'),':')
+PATH.reverse()
+LPATH = [path.expanduser( '~/.local/bin' )]
+walk( LPATH[0] , (lambda arg, dn, fn: arg.extend(filter(path.isdir,map(lambda x: path.join(dn,x),fn))), LPATH))
+PATH.extend(['/bin','/sbin','/usr/bin','/usr/sbin','/usr/local/bin','/usr/local/sbin'])
+PATH = list(sorted(filter((lambda x: 'X11' not in x),set(PATH).union(set(LPATH))),key=lambda x: -len(list(filter(None,x.split('/'))))))
+print('PATH='+':'.join(PATH)+'\n')
+print('export PYTHONDONTWRITEBYTECODE=1')
+print('export CFLAGS="' + (getenv("CFLAGS") or "") + ' -std=gnu11 -g -ggdb -O3 -Ofast "')
+print('export CXXFLAGS="' + (getenv("CXXFLAGS") or "") + ' -std=gnu++14 -g -ggdb -O3 -Ofast "')
+print("alias ihome=' pushd ~; ipython; popd '")

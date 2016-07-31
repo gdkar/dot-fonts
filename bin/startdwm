@@ -1,0 +1,14 @@
+xmodmap ~/.xmodmap
+
+exists() {
+    type "$1" >/dev/null 2>&1
+}
+
+while true; do
+  # Log stderror to a file
+  if exists feh; then
+    feh --bg-max --no-fehbg ~/.local/share/desktop.jpg
+  fi
+  ~/.local/bin/xinput_ctrl disable
+  dwm >~/.cache/dwm.log 2>&1
+done
